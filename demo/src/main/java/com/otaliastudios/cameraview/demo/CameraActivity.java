@@ -8,6 +8,7 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.ImageFormat;
+import android.graphics.PixelFormat;
 import android.graphics.Rect;
 import android.graphics.YuvImage;
 import android.os.Bundle;
@@ -53,6 +54,7 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        getWindow().setFormat(PixelFormat.RGBA_8888);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_camera);
         CameraLogger.setLogLevel(CameraLogger.LEVEL_VERBOSE);
