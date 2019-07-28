@@ -151,6 +151,11 @@ public class TextureMediaEncoder extends VideoMediaEncoder<TextureConfig> {
             Matrix.translateM(overlayTransform, 0, 0.5F, 0.5F, 0);
             Matrix.rotateM(overlayTransform, 0, mConfig.overlayRotation, 0, 0, 1);
             Matrix.translateM(overlayTransform, 0, -0.5F, -0.5F, 0);
+
+            // Scale down to see outside
+            Matrix.translateM(overlayTransform, 0, -0.25F, -0.25F, 0);
+            Matrix.scaleM(overlayTransform, 0, 1.5F, 1.5F, 1);
+
         }
         mViewport.drawFrame(mConfig.textureId, transform);
         if (mConfig.hasOverlay()) {
