@@ -7,6 +7,9 @@ import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.Rect;
 import android.graphics.SurfaceTexture;
+import android.media.MediaCodec;
+import android.media.MediaCodecInfo;
+import android.media.MediaFormat;
 import android.opengl.EGL14;
 import android.opengl.EGLContext;
 import android.opengl.Matrix;
@@ -165,7 +168,19 @@ public class SnapshotGlPictureRecorder extends PictureRecorder {
             @Override
             public void run() {
                 // 0. Create an EGL surface
-                EglBaseSurface eglSurface = new EglWindowSurface(core, mSurfaceTexture);
+                MediaFormat format = MediaFormat.createVideoFormat("video/avc", mResult.size.getWidth(), mResult.size.getHeight());
+                format.setInteger(MediaFormat.KEY_COLOR_FORMAT, MediaCodecInfo.CodecCapabilities.COLOR_FormatSurface);
+                format.setInteger(MediaFormat.KEY_BIT_RATE, (int) (0.07F * mResult.size.getWidth() * mResult.size.getHeight() * 30F));
+                format.setInteger(MediaFormat.KEY_FRAME_RATE, 30);
+                format.setInteger(MediaFormat.KEY_I_FRAME_INTERVAL, 5);
+                MediaCodec codec;
+                try {
+                    codec = MediaCodec.createEncoderByType("video/avc");
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+                codec.configure(format, null, null, MediaCodec.CONFIGURE_FLAG_ENCODE);
+                EglBaseSurface eglSurface = new EglWindowSurface(core, codec.createInputSurface());
                 eglSurface.makeCurrent();
 
                 // 1. Get latest texture
@@ -230,6 +245,9 @@ public class SnapshotGlPictureRecorder extends PictureRecorder {
                 eglSurface.releaseEglSurface();
                 mViewport.release();
                 mSurfaceTexture.release();
+                try {
+                    codec.release();
+                } catch (Exception ignore) {}
                 if (mHasOverlay) {
                     mOverlaySurfaceTexture.releaseTexImage();
                     mOverlaySurface.release();
