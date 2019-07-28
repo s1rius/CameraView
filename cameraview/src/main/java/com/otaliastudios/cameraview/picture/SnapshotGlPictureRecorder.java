@@ -200,7 +200,7 @@ public class SnapshotGlPictureRecorder extends PictureRecorder {
                 if (mHasOverlay) {
                     // 1. First we must draw on the texture and get latest image
                     try {
-                        final Canvas surfaceCanvas = mOverlaySurface.lockCanvas(null);
+                        final Canvas surfaceCanvas = mOverlaySurface.lockHardwareCanvas();
                         surfaceCanvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
                         mOverlay.drawOn(Overlay.Target.PICTURE_SNAPSHOT, surfaceCanvas);
                         mOverlaySurface.unlockCanvasAndPost(surfaceCanvas);

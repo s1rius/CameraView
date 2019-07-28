@@ -175,7 +175,7 @@ public class SnapshotVideoRecorder extends VideoRecorder implements RendererFram
             // get overlay
             if (mHasOverlay) {
                 try {
-                    final Canvas surfaceCanvas = mOverlaySurface.lockCanvas(null);
+                    final Canvas surfaceCanvas = mOverlaySurface.lockHardwareCanvas();
                     surfaceCanvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
                     mOverlay.drawOn(Overlay.Target.VIDEO_SNAPSHOT, surfaceCanvas);
                     mOverlaySurface.unlockCanvasAndPost(surfaceCanvas);
