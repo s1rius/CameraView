@@ -41,15 +41,15 @@
             app:layout_drawOnVideoSnapshot="true"
             app:layout_drawOnPictureSnapshot="true">
             <ImageView
-                android:src="#FF0000"
+                android:src="#50FF0000"
                 android:layout_width="40dp"
                 android:layout_height="40dp" />
             <ImageView
-                android:src="#00FF00"
+                android:src="#5000FF00"
                 android:layout_width="40dp"
                 android:layout_height="40dp" />
             <ImageView
-                android:src="#0000FF"
+                android:src="#500000FF"
                 android:layout_width="40dp"
                 android:layout_height="40dp" />
         </LinearLayout>
