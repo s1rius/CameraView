@@ -34,7 +34,8 @@ public class EglViewport extends EglElement {
                     "varying vec2 vTextureCoord;\n" +
                     "uniform samplerExternalOES sTexture;\n" +
                     "void main() {\n" +
-                    "    gl_FragColor = texture2D(sTexture, vTextureCoord);\n" +
+                    "    vec4 temp = texture2D(sTexture, vTextureCoord);" +
+                    "    gl_FragColor = vec4(temp.x, temp.y, temp.z, 0.5);\n" +
                     "}\n";
 
     // Stuff from Drawable2d.FULL_RECTANGLE
