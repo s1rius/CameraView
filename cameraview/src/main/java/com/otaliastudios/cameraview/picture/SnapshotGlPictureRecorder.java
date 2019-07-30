@@ -160,17 +160,19 @@ public class SnapshotGlPictureRecorder extends PictureRecorder {
         final EGLContext eglContext = EGL14.eglGetCurrentContext();
         // Calling this invalidates the rotation/scale logic below:
         // surfaceTexture.getTransformMatrix(mTransform); // TODO activate and fix the logic.
+
+        // 0. EGL window will need an output.
+        // We create a fake one as explained in javadocs.
+        final int fakeOutputTextureId = 9999;
+        final SurfaceTexture fakeOutputSurface = new SurfaceTexture(fakeOutputTextureId);
+        fakeOutputSurface.setDefaultBufferSize(mResult.size.getWidth(), mResult.size.getHeight());
+
+        // 1. Create an EGL surface
+        final EglCore core = new EglCore(eglContext, EglCore.FLAG_RECORDABLE);
+
         WorkerHandler.execute(new Runnable() {
             @Override
             public void run() {
-                // 0. EGL window will need an output.
-                // We create a fake one as explained in javadocs.
-                final int fakeOutputTextureId = 9999;
-                SurfaceTexture fakeOutputSurface = new SurfaceTexture(fakeOutputTextureId);
-                fakeOutputSurface.setDefaultBufferSize(mResult.size.getWidth(), mResult.size.getHeight());
-
-                // 1. Create an EGL surface
-                final EglCore core = new EglCore(eglContext, EglCore.FLAG_RECORDABLE);
                 final EglBaseSurface eglSurface = new EglWindowSurface(core, fakeOutputSurface);
                 eglSurface.makeCurrent();
 
