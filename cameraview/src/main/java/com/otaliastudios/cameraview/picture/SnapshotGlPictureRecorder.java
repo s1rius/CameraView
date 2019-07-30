@@ -174,6 +174,8 @@ public class SnapshotGlPictureRecorder extends PictureRecorder {
                 final EglBaseSurface eglSurface = new EglWindowSurface(core, fakeOutputSurface);
                 eglSurface.makeCurrent();
 
+                fakeOutputSurface.updateTexImage();
+
                 // 2. Apply scale and crop
                 boolean flip = mEngine.getAngles().flip(Reference.VIEW, Reference.SENSOR);
                 float realScaleX = flip ? scaleY : scaleX;
