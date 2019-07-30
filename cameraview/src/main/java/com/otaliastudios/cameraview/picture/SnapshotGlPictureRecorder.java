@@ -164,7 +164,7 @@ public class SnapshotGlPictureRecorder extends PictureRecorder {
         // 0. EGL window will need an output.
         // We create a fake one as explained in javadocs.
         final int fakeOutputTextureId = 9999;
-        final SurfaceTexture fakeOutputSurface = new SurfaceTexture(mTextureId, true);
+        final SurfaceTexture fakeOutputSurface = new SurfaceTexture(mTextureId);
         fakeOutputSurface.setDefaultBufferSize(mResult.size.getWidth(), mResult.size.getHeight());
 
         // 1. Create an EGL surface
@@ -226,7 +226,6 @@ public class SnapshotGlPictureRecorder extends PictureRecorder {
                 mResult.data = eglSurface.saveFrameTo(Bitmap.CompressFormat.JPEG);
 
                 // 6. Cleanup
-                fakeOutputSurface.releaseTexImage();
                 eglSurface.releaseEglSurface();
                 mViewport.release();
                 fakeOutputSurface.release();
